@@ -14,6 +14,8 @@ export interface IProps {
   capacity?: number
   note?: string
   header?: string
+  singular: string
+  plural: string
 }
 
 const props = defineProps<IProps>()
@@ -53,9 +55,9 @@ const remainingCapacity = computed<number>(() => {
                 <!-- <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Info</td> -->
               </tr>
               <tr v-if="remainingCapacity || !hasMaxCapacity" class="hover:pointer">
-                <td colspan="2"
-                  class="whitespace-nowrap py-2 px-2 text-sm font-medium text-gray-900 sm:pl-6 text-center">
-                  add a weapon
+                <td :colspan="props.columns.length"
+                  class="whitespace-nowrap py-2 px-2 text-sm font-medium text-gray-900 sm:pl-6 text-center cursor-pointer">
+                  add {{ props.singular }}
                 </td>
               </tr>
             </tbody>
