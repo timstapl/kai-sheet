@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useCharacterStore } from '@/stores/character'
-import { computed } from 'vue'
+import { useNotificationsStore } from '@/stores/notifications'
+import { rolld10 } from '@/utilities/roll'
 
 type Stat = {
   name: string
@@ -8,11 +9,20 @@ type Stat = {
 }
 
 const CharacterStore = useCharacterStore()
+const NotificationsStore = useNotificationsStore()
 
 const stats: Stat[] = [
   { name: 'Combat Skill', value: CharacterStore.combatSkill },
   { name: 'Endurance Points', value: CharacterStore.endurancePoints },
 ]
+
+const roll = () : void => {
+  NotificationsStore.addNotification({
+    id: Symbol(),
+    type: 'roll',
+    message: `You Rolled ${ rolld10() }`,
+  })
+}
 </script>
 
 <template>
@@ -25,7 +35,7 @@ const stats: Stat[] = [
         </dd>
       </div>
       <!-- Roll d10 button -->
-      <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+      <div @click="roll" class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
         <dt class="truncate text-sm font-medium text-gray-500">Roll d10</dt>
         <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
           <svg class="svg-icon"

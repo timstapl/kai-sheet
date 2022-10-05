@@ -1,5 +1,38 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import {
+  BriefcaseIcon,
+  ChartBarIcon,
+  Bars3Icon,
+  QueueListIcon,
+  UsersIcon,
+  XMarkIcon,
+} from '@heroicons/vue/24/outline'
+import Notification from './components/Notification.vue'
+import CharacterSheet from '@/views/CharacterSheet.vue'
+
+import { useCharacterStore } from '@/stores/character'
+import { useNotificationsStore } from '@/stores/notifications'
+
+
+const navigation = [
+  { name: 'Stats', href: '#', icon: ChartBarIcon, current: true },
+  { name: 'Disciplines', href: '#', icon: QueueListIcon, current: false },
+  { name: 'Items', href: '#', icon: BriefcaseIcon, current: false },
+  { name: 'Combat Record', href: '#', icon: UsersIcon, current: false },
+]
+
+const sidebarOpen = ref(false)
+const CharacterStore = useCharacterStore()
+const NotificationsStore = useNotificationsStore()
+</script>
+
 <template>
   <div>
+    <div class="Notifications" v-auto-animate>
+      <Notification v-for="n, i in NotificationsStore.notifications" :key="n.id" :notification="n" />
+    </div>
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog as="div" class="relative z-40 md:hidden" @close="sidebarOpen = false">
         <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0"
@@ -87,26 +120,3 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { useCharacterStore } from '@/stores/character'
-import CharacterSheet from '@/views/CharacterSheet.vue'
-import { ref } from 'vue'
-import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import {
-  BriefcaseIcon,
-  ChartBarIcon,
-  Bars3Icon,
-  QueueListIcon,
-  UsersIcon,
-  XMarkIcon,
-} from '@heroicons/vue/24/outline'
-const navigation = [
-  { name: 'Stats', href: '#', icon: ChartBarIcon, current: true },
-  { name: 'Disciplines', href: '#', icon: QueueListIcon, current: false },
-  { name: 'Items', href: '#', icon: BriefcaseIcon, current: false },
-  { name: 'Combat Record', href: '#', icon: UsersIcon, current: false },
-]
-
-const sidebarOpen = ref(false)
-const CharacterStore = useCharacterStore()
-</script>

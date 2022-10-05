@@ -5,12 +5,14 @@ import { XMarkIcon } from '@heroicons/vue/24/outline'
 
 const open = ref(true)
 
+const props = defineProps<IProps>()
+</script>
+
+<script lang="ts">
 interface IProps {
   title: string
   description: string
 }
-
-const props = defineProps<IProps>()
 </script>
 
 <template>
